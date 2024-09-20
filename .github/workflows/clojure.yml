@@ -1,0 +1,22 @@
+name: Clojure CI
+on: push
+jobs:
+  clojure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Clojure
+        uses: DeLaGuardo/setup-clojure@v12.5
+
+      - name: Install clj-kondo
+        uses: DeLaGuardo/setup-clj-kondo@master
+        with:
+          version: '2020.04.05'
+
+      - name: Lint
+        run: clj-kondo --lint src --config '{:output {:pattern "::{{level}} file={{filename}},line={{row}},col={{col}}::{{message}}"}}'
+
+      - name: Run tests
+        run: clj -X:test
