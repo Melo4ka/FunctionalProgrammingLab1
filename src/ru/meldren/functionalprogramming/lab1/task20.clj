@@ -28,4 +28,3 @@
   (->> (str n)
        (map #(Character/digit ^char % 10))
        (reduce +)))
-
